@@ -11,6 +11,12 @@ interface Message {
   timestamp: Date;
 }
 
+const starterQuestions = [
+  '¿Qué pasará con mis datos si me suscribo? / What will happen to my data if I subscribe?',
+  '¿Puedo darme de baja cuando quiera? / Can I unsubscribe anytime?',
+  '¿Puedo agendar una cita? / Can I schedule an appointment?',
+];
+
 export default function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -32,6 +38,10 @@ export default function ChatInterface() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  const handleStarterQuestion = (question: string) => {
+    setInput(question);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,7 +89,7 @@ export default function ChatInterface() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col bg-white rounded-3xl overflow-hidden border border-black/5">
+    <div className="w-full max-w-[450px] h-[700px] max-h-[90vh] flex flex-col bg-white rounded-3xl overflow-hidden border border-black/5">
       <div className="bg-black p-6 flex items-center text-white">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
@@ -140,6 +150,21 @@ export default function ChatInterface() {
               </span>
             </div>
           </motion.div>
+        )}
+
+        {!isLoading && messages.length <= 1 && (
+          <div className="space-y-3 pt-2">
+            {starterQuestions.map((question, index) => (
+              <button
+                key={index}
+                type="button"
+                onClick={() => handleStarterQuestion(question)}
+                className="w-full text-left bg-white border border-black/10 rounded-2xl px-4 py-3 text-sm text-black/80 hover:border-black/20 hover:shadow-sm transition-all"
+              >
+                {question}
+              </button>
+            ))}
+          </div>
         )}
 
         <div ref={messagesEndRef} />
