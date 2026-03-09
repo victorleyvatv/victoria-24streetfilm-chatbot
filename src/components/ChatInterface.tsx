@@ -79,9 +79,8 @@ export default function ChatInterface() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col bg-white rounded-3xl shadow-2xl overflow-hidden border border-black/5">
-      {/* Header */}
-      <div className="bg-black p-6 flex items-center justify-between text-white">
+    <div className="w-full h-full flex flex-col bg-white rounded-3xl overflow-hidden border border-black/5">
+      <div className="bg-black p-6 flex items-center text-white">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
             <img
@@ -97,7 +96,6 @@ export default function ChatInterface() {
         </div>
       </div>
 
-      {/* Messages Area */}
       <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[#F9F9F9]">
         <AnimatePresence initial={false}>
           {messages.map((message) => (
@@ -147,7 +145,6 @@ export default function ChatInterface() {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Area */}
       <div className="p-6 bg-white border-t border-black/5">
         <form onSubmit={handleSubmit} className="relative">
           <input
