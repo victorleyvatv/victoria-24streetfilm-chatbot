@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Send, Bot, Loader2 } from 'lucide-react';
+import { Send, Bot, Loader2, MessageSquare, X } from 'lucide-react';
 import Markdown from 'react-markdown';
 import { getVictoriaResponse } from '../services/gemini';
 
@@ -23,6 +23,7 @@ export default function ChatInterface() {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -78,19 +79,45 @@ export default function ChatInterface() {
     }
   };
 
+  if (!isOpen) {
+    return (
+      <div className="fixed bottom-6 right-6 z-50">
+        <button
+          onClick={() => setIsOpen(true)}
+          className="w-16 h-16 bg-black text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all"
+          aria-label="Open chat"
+        >
+          <MessageSquare size={28} />
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div className="w-full max-w-[450px] h-[700px] max-h-[90vh] flex flex-col bg-white rounded-3xl shadow-2xl overflow-hidden border border-black/5">
+    <div className="fixed bottom-6 right-6 z-50 w-[450px] max-w-[calc(100vw-24px)] h-[700px] max-h-[90vh] flex flex-col bg-white rounded-3xl shadow-2xl overflow-hidden border border-black/5">
       {/* Header */}
       <div className="bg-black p-6 flex items-center justify-between text-white">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
-            <img src="https://raw.githubusercontent.com/victorleyvatv/Assets-for-24-Street-Film-branding/main/24STREETFILM%20ISOTIPO%20WEB.png" alt="24 Street Film" className="w-8 h-8 object-contain" />
+            <img
+              src="https://raw.githubusercontent.com/victorleyvatv/Assets-for-24-Street-Film-branding/main/24STREETFILM%20ISOTIPO%20WEB.png"
+              alt="24 Street Film"
+              className="w-8 h-8 object-contain"
+            />
           </div>
           <div>
             <h2 className="font-semibold text-lg tracking-tight">Victoria</h2>
             <p className="text-xs text-white/60 uppercase tracking-widest font-medium">24 Street Film</p>
           </div>
         </div>
+
+        <button
+          onClick={() => setIsOpen(false)}
+          className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors"
+          aria-label="Close chat"
+        >
+          <X size={18} />
+        </button>
       </div>
 
       {/* Messages Area */}
